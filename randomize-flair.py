@@ -63,13 +63,11 @@ if __name__ == "__main__":
     # - no change for users in control group
     merged_user_group_dict = {**user_group_dict, **new_users_with_flair}
     for user, group in merged_user_group_dict:
-        if group == 1:
-            flair_template = FLAIR_HIDING_TEMPLATE_ID
-        else:
-            flair_template = None
+        if group == 0:
+            continue
 
+        flair_template = FLAIR_HIDING_TEMPLATE_ID
         flair_text = users_with_flair[user]
-        
         subreddit.flair.set(redditor=user, flair_text=flair_text,
                             flair_template_id=flair_templaete_id)
 
