@@ -87,15 +87,15 @@ if __name__ == "__main__":
     user_stratum = {}
     for flair in subreddit.flair(limit=None):
         username = flair["user"].name
+        if username == "AutoModerator" or\
+           username == "DeltaBot" or\
+           username == "centrismhurts998":
+            continue
+
         flair_text = str(flair["flair_text"])
         flair_css_class = str(flair["flair_css_class"])
         user_flair_text[username] = flair_text
         user_flair_css_class[username] = flair_css_class
-
-        if username == "AutoModerator" or\
-           username == "DeltaBot" or\
-           flair_text == "Submission Restriction":
-            continue
 
         delta = None
         if flair_text == "None":
