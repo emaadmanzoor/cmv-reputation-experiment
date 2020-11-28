@@ -4,12 +4,14 @@ import pprint
 import praw
 import sys
 import time
+import traceback 
 
 from params import *
 from tqdm import tqdm
 
 def eprint(*args, **kwargs):
   print(*args, file=sys.stderr, **kwargs)
+  sys.stderr.flush()
 
 if __name__ == "__main__":
   ap = argparse.ArgumentParser()
@@ -41,28 +43,39 @@ if __name__ == "__main__":
                        user_agent=USER_AGENT)
 
   # username, comment karma, link karma, created_utc, verified, mod
-  user_reddit_stats = []
-  for idx, user in tqdm(enumerate(users), total=len(users)):
-    redditor = reddit.redditor(user)
-    treated = treatments[idx]
-    stratum = strata[idx]
-
-    if getattr(redditor, "is_suspended", False):
-      continue
-
-    user_reddit_stats.append([user, redditor.comment_karma, redditor.link_karma,
-                              redditor.created_utc, redditor.has_verified_email,
-                              redditor.is_mod, redditor.is_gold, stratum, treated])
-
-  # write stratum and treatment status to disk
   with open(user_redditstats_filename, "w") as f:
-    for idx in range(len(user_reddit_stats)):
-      user, comment_karma, link_karma, created_utc,\
-        verified, mod, gold, stratum, treated = user_reddit_stats[idx]
+    for idx, user in tqdm(enumerate(users), total=len(users)):
+      retry = True
+      retry_num = 0
+      while retry:
+        try:
+          time.sleep(0.1)
 
-      f.write(user + "\t" + str(treated) + "\t" + str(stratum) + "\t" +
-              str(comment_karma) + "\t" + str(link_karma) + "\t" +
-              str(created_utc) + "\t" + str(verified) + "\t" + str(mod) + "\t" +
-              str(gold) + "\n")
+          redditor = reddit.redditor(user)
+          treated = treatments[idx]
+          stratum = strata[idx]
 
+          if getattr(redditor, "is_suspended", False):
+            retry = False
+            continue
+
+          f.write(user + "\t" + str(treated) + "\t" + str(stratum) + "\t" +
+                  str(redditor.comment_karma) + "\t" + str(redditor.link_karma) + "\t" +
+                  str(redditor.created_utc) + "\t" + str(redditor.has_verified_email) + "\t" + str(redditor.is_mod) + "\t" +
+                  str(redditor.is_gold) + "\n")
+          f.flush()
+
+          retry = False
+         
+        except Exception as e:
+          eprint("Failure with user:", user, "Retries:", retry_num, "Error:", e) 
+          traceback.print_exc()
+          retry_num += 1
+
+          if retry_num > 5:
+            eprint("Exceeded 5 retries, ignoring user:", user)
+            retry = False
+
+          time.sleep(1)
+          
   eprint("Reddit API limits:", reddit.auth.limits)
