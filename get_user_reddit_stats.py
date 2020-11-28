@@ -42,20 +42,23 @@ if __name__ == "__main__":
 
   # username, comment karma, link karma, created_utc, verified, mod
   user_reddit_stats = []
-  for user in tqdm(users[:5]):
+  for idx, user in tqdm(enumerate(users), total=len(users)):
     redditor = reddit.redditor(user)
+    treated = treatments[idx]
+    stratum = strata[idx]
+
+    if getattr(redditor, "is_suspended", False):
+      continue
+
     user_reddit_stats.append([user, redditor.comment_karma, redditor.link_karma,
                               redditor.created_utc, redditor.has_verified_email,
-                              redditor.is_mod, redditor.is_gold])
-    time.sleep(0.25)
+                              redditor.is_mod, redditor.is_gold, stratum, treated])
 
   # write stratum and treatment status to disk
   with open(user_redditstats_filename, "w") as f:
     for idx in range(len(user_reddit_stats)):
       user, comment_karma, link_karma, created_utc,\
-        verified, mod, gold = user_reddit_stats[idx]
-      treated = treatments[idx]
-      stratum = strata[idx]
+        verified, mod, gold, stratum, treated = user_reddit_stats[idx]
 
       f.write(user + "\t" + str(treated) + "\t" + str(stratum) + "\t" +
               str(comment_karma) + "\t" + str(link_karma) + "\t" +
