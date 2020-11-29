@@ -26,9 +26,10 @@ if __name__ == "__main__":
   
   user_flair_group_filename = args.filename
   timestamp = "-".join(user_flair_group_filename.split("-")[1:])
-  balance_filename = "balance-" + timestamp
-  user_redditstats_filename = "user_reddit_stats-" + timestamp
-  user_cmvstats_filename = "user_cmv_stats-" + timestamp
+  folder = user_flair_group_filename.split("/")[0] + "/"
+  balance_filename = folder + "balance-" + timestamp
+  user_redditstats_filename = folder + "user_reddit_stats-" + timestamp
+  user_cmvstats_filename = folder + "user_cmv_stats-" + timestamp
   
   # read user Reddit statistics file
   strata = []
