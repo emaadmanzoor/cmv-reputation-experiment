@@ -66,7 +66,12 @@ if __name__ == "__main__":
     eprint("\tUpdating flair for", len(treated_users), "users...")
 
     t = time.time()
-    subreddit.flair.update(treated_users, text="")
-    
+    res = subreddit.flair.update(treated_users, text="")
+    for status in res:
+      username = status["status"].split(" ")[-1]
+      ok = status["ok"]
+      if not ok:
+        eprint("Error updating flair for:", username)
+
     eprint("\tDone in:", time.time() - t, "s.")
     eprint("Reddit API limits:", reddit.auth.limits)
