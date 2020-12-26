@@ -50,8 +50,12 @@ if __name__ == "__main__":
       treatment = existing_user_treatment[username]
       delta = existing_user_delta[username]
       css_class = existing_user_flair_css_class[username]
+      flair_text = existing_user_flair_text[username]
 
       if delta == 0: # no point treating users with no flair
+        continue
+
+      if flair_text == "": # no point treating users with no flair
         continue
 
       if treatment == 0: # control group user
