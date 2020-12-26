@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 
-import argparse
 import glob
-import os
 import praw
 import sys
 import time
@@ -13,9 +11,6 @@ def eprint(*args, **kwargs):
     print(*args, file=sys.stderr, **kwargs)
 
 if __name__ == "__main__":
-    start_time = time.strftime("%Y-%m-%d-%H-%M-%S") 
-    filename = USER_GROUPS_FILENAME + "-" + start_time + ".csv"
-
     eprint("Starting flair update script, time:", start_time)
     eprint("WARNING: Modifies CMV!")
 
