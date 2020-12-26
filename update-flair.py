@@ -11,7 +11,7 @@ def eprint(*args, **kwargs):
     print(*args, file=sys.stderr, **kwargs)
 
 if __name__ == "__main__":
-    eprint("Starting flair update script, time:", start_time)
+    eprint("Starting flair update script")
     eprint("WARNING: Modifies CMV!")
 
     existing_user_flair_text = {}
