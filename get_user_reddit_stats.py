@@ -49,7 +49,7 @@ if __name__ == "__main__":
       retry_num = 0
       while retry:
         try:
-          time.sleep(0.1)
+          time.sleep(1)
 
           redditor = reddit.redditor(user)
           treated = treatments[idx]
