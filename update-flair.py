@@ -44,8 +44,8 @@ if __name__ == "__main__":
                          user_agent=USER_AGENT)
     subreddit = reddit.subreddit(SUBREDDIT)
 
-    t = time.time()
-    eprint("\tUpdating user flairs on Reddit...")
+
+    treated_users = []
     for username in existing_user_treatment.keys():
       treatment = existing_user_treatment[username]
       delta = existing_user_delta[username]
@@ -61,9 +61,12 @@ if __name__ == "__main__":
       if treatment == 0: # control group user
         continue
 
-      eprint("\t\tHiding flair for treated user:", username)
-      subreddit.flair.set(redditor=username, text="",
-                          css_class=css_class)
+      treated_users.append(username)
 
+    eprint("\tUpdating flair for", len(treated_users), "users...")
+
+    t = time.time()
+    subreddit.flair.update(treated_users, text="")
+    
     eprint("\tDone in:", time.time() - t, "s.")
     eprint("Reddit API limits:", reddit.auth.limits)

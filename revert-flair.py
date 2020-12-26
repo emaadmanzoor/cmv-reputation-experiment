@@ -59,8 +59,6 @@ if __name__ == "__main__":
     t = time.time()
     eprint("\tUpdating user flairs on Reddit...")
     for username in existing_user_treatment.keys():
-      if username != "entsnack":
-        continue
 
       treatment = existing_user_treatment[username]
       css_class = existing_user_flair_css_class[username]
