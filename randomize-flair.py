@@ -225,19 +225,3 @@ if __name__ == "__main__":
                       str(stratum) + "\t" + flair_css_class + "\t" + str(treated) + "\n")
 
     eprint("Reddit API limits:", reddit.auth.limits)
-
-    """TODO: move below to sequential randomization script
-    # Update flair template of all users:
-    # - hide flair for users in treatment group
-    # - no change for users in control group
-    merged_user_group_dict = {**user_group_dict, **new_users_with_flair}
-    for user, group in merged_user_group_dict:
-        if group == 0:
-            continue
-
-        flair_template = FLAIR_HIDING_TEMPLATE_ID
-        flair_text = users_with_flair[user]
-        subreddit.flair.set(redditor=user, flair_text=flair_text,
-                            flair_template_id=flair_templaete_id)
-
-  """
