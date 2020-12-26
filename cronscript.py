@@ -7,7 +7,7 @@ def job():
     print("Calling cronscript.sh at:", start_time)
     rc = subprocess.call("./cronscript.sh", shell=True)
 
-schedule.every(20).minutes.do(job)
+schedule.every(15).minutes.do(job)
 
 while True:
     schedule.run_pending()

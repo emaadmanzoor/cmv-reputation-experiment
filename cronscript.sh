@@ -4,3 +4,4 @@ echo "cronscript running..." >> run.log
 #python --version >> run.log
 python randomize-flair.py --update 2>>run.log 1>>run.log
 python update-flair.py 2>>run.log 1>>run.log
+python check-flair.py 2>>run.log 1>>run.log
