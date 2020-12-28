@@ -52,6 +52,7 @@ if __name__ == "__main__":
     eprint("\tGetting user flairs from Reddit...")
     t0 = time.time()
 
+    to_update = []
     for flair in subreddit.flair(limit=None):
         username = flair["user"].name
         if username == "AutoModerator" or\
@@ -71,6 +72,9 @@ if __name__ == "__main__":
           if flair_text != "" and flair_text != "None" and flair_text != "0∆":
             print("Treated user with non-empty flair:", username,
                    flair_text)
+            to_update.append(username)
+
+    subreddit.flair.update(to_update, text="")
 
     eprint("\tDone in", time.time() - t0, "s")
 
