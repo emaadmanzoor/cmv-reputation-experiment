@@ -201,27 +201,29 @@ if __name__ == "__main__":
              f.write(username + "\t" + flair_text + "\t" + str(delta) + "\t" +
                      str(stratum) + "\t" + flair_css_class + "\t" + str(treated) + "\n")
     else:
-      with open(filename, "w") as f:
-          # first write existing users
-          for username in existing_user_flair_text.keys():
-             treated = existing_user_treatment[username] # existing
-             stratum = existing_user_stratum[username] # existing
-             flair_text = existing_user_flair_text[username] # existing
-             flair_css_class = existing_user_flair_css_class[username] # existing
-             delta = existing_user_delta[username] # existing
+      # only create new file if new users are seen
+      if len(user_treatment.keys()) > 0:
+        with open(filename, "w") as f:
+            # first write existing users
+            for username in existing_user_flair_text.keys():
+               treated = existing_user_treatment[username] # existing
+               stratum = existing_user_stratum[username] # existing
+               flair_text = existing_user_flair_text[username] # existing
+               flair_css_class = existing_user_flair_css_class[username] # existing
+               delta = existing_user_delta[username] # existing
 
-             f.write(username + "\t" + flair_text + "\t" + str(delta) + "\t" +
-                     str(stratum) + "\t" + flair_css_class + "\t" + str(treated) + "\n")
+               f.write(username + "\t" + flair_text + "\t" + str(delta) + "\t" +
+                       str(stratum) + "\t" + flair_css_class + "\t" + str(treated) + "\n")
 
-          # then write new users
-          for username in user_treatment.keys():
-              treated = user_treatment[username] # new
-              stratum = user_stratum[username] # new
-              flair_text = user_flair_text[username] # new
-              flair_css_class = user_flair_css_class[username] # new
-              delta = user_delta[username] # new
-             
-              f.write(username + "\t" + flair_text + "\t" + str(delta) + "\t" +
-                      str(stratum) + "\t" + flair_css_class + "\t" + str(treated) + "\n")
+            # then write new users
+            for username in user_treatment.keys():
+                treated = user_treatment[username] # new
+                stratum = user_stratum[username] # new
+                flair_text = user_flair_text[username] # new
+                flair_css_class = user_flair_css_class[username] # new
+                delta = user_delta[username] # new
+               
+                f.write(username + "\t" + flair_text + "\t" + str(delta) + "\t" +
+                        str(stratum) + "\t" + flair_css_class + "\t" + str(treated) + "\n")
 
     eprint("Reddit API limits:", reddit.auth.limits)
