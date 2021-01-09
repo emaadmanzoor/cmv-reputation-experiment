@@ -123,7 +123,6 @@ if __name__ == "__main__":
   # load comments
   comment_files = glob.glob(data_folder + "/*_comments.jsonlist")
   comment_files = sorted(comment_files)
-  comment_files.append(data_folder + "/missing_comments.jsonlist")
   
   comment_files_start_timestamp = comment_files[0].split("/")[-1].split("_")[0]
   comment_files_end_timestamp = comment_files[-2].split("/")[-1].split("_")[0]
